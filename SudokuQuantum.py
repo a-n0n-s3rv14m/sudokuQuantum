@@ -43,7 +43,7 @@ class SudokuSolver:
         subSize = 2 if size == 4 else 1
         emptyIndexes = [[0]*size for _ in range(size)]
         emptySquares = []
-        emptySquareEdges = []
+        emptyCellConstraints = []
 
         startingNumberConstraints = set()
 
@@ -74,25 +74,25 @@ class SudokuSolver:
                             if puzzle[iSub][jSub] != 0:
                                 startingNumberConstraints.add((emptyIndex, puzzle[iSub][jSub] - 1))
                             elif iSub < jSub and iSub != i and jSub != j:
-                                emptySquareEdges.append((emptyIndex, emptyIndexes[iSub][jSub]))
+                                emptyCellConstraints.append([emptyIndex, emptyIndexes[iSub][jSub]])
 
                     for ii in range(0, size):
                         if puzzle[ii][j] != 0:
                             startingNumberConstraints.add((emptyIndex, puzzle[ii][j] - 1))
                         elif ii < i:
-                            emptySquareEdges.append((emptyIndex, emptyIndexes[ii][j]))
+                            emptyCellConstraints.append([emptyIndex, emptyIndexes[ii][j]])
 
                     for jj in range(0, size):
                         if puzzle[i][jj] != 0:
                             startingNumberConstraints.add((emptyIndex, puzzle[i][jj] - 1))
                         elif jj < j:
-                            emptySquareEdges.append((emptyIndex, emptyIndexes[i][jj]))
+                            emptyCellConstraints.append([emptyIndex, emptyIndexes[i][jj]])
 
                     if size == 9:  # Invalidate numbers that are illegal on a 9x9 board
                         for invalid in range(9, 16):
                             startingNumberConstraints.add((emptyIndex, invalid))
 
-        return emptySquareEdges, startingNumberConstraints, emptySquares
+        return emptyCellConstraints, startingNumberConstraints, emptySquares
 
 
 
